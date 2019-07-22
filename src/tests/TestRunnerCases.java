@@ -9,32 +9,25 @@ import org.testng.annotations.Test;
 import com.eviware.soapui.impl.wsdl.WsdlProject;
 import com.eviware.soapui.impl.wsdl.WsdlTestSuite;
 import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCase;
-import com.eviware.soapui.impl.wsdl.testcase.WsdlTestCaseRunner;
 import com.eviware.soapui.model.support.PropertiesMap;
 import com.eviware.soapui.model.testsuite.TestSuite;
+import com.eviware.soapui.model.testsuite.TestRunner;
 import com.eviware.soapui.model.testsuite.TestRunner.Status;
 import com.eviware.soapui.support.SoapUIException;
 
-public class TestRunner {
-
-	@Test
-	public void SoapTest() throws XmlException, IOException, SoapUIException {
-		
+public class TestRunnerCases {
 	
+	@Test
+	public void singleTestCase() throws XmlException, IOException, SoapUIException {
 		// Grab the project
-		WsdlProject project=new WsdlProject("C:\\Users\\Mari\\Documents\\Automation.xml");
+		WsdlProject project=new WsdlProject("C:\\Devel\\Automation.xml");	
 		
 		// Grab the test suite in the project
 		WsdlTestSuite testSuite = project.getTestSuiteByName("EmployeeTestSuite");
+		WsdlTestCase testCase = testSuite.getTestCaseByName("addEmployee_TestCase");
 		
-		//Grab the test cases from the test suite
-		for (int i=0; i<testSuite.getTestCaseCount();i++) {
-			WsdlTestCase testCase = testSuite.getTestCaseAt(i);
-			
-			//Run the test cases
-			WsdlTestCaseRunner runner = testCase.run(new PropertiesMap(), false);
-			Assert.assertEquals(String.valueOf(Status.FINISHED), String.valueOf(runner.getStatus()));
-		}
+		TestRunner runner = testCase.run(new PropertiesMap(), false);
+		Assert.assertEquals(String.valueOf(Status.FINISHED), String.valueOf(runner.getStatus()));
 	}
 
 }
