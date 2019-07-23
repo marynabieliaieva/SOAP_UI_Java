@@ -20,17 +20,18 @@ public class RestRunnerSuites {
 		
 		// Grab the test suite in the project
 		for (int j=0; j<project.getTestSuiteCount();j++) {
-			project.getTestSuiteAt(j);
+			WsdlTestSuite testSuite = project.getTestSuiteAt(j);
+			
+			//Grab the test cases present in test suite
+			for (int i=0; i<testSuite.getTestCaseCount();i++) {
+				WsdlTestCase testCase = testSuite.getTestCaseAt(i);
+			
+			TestRunner runner = testCase.run(new PropertiesMap(), false);
+			Assert.assertEquals(String.valueOf(Status.FINISHED), String.valueOf(runner.getStatus()));
+		}
 		}
 		
-		WsdlTestSuite testSuite = project.getTestSuiteByName("E2E");
-		//Grab the test cases present in test suite
-		for (int i=0; i<testSuite.getTestCaseCount();i++) {
-			WsdlTestCase testCase = testSuite.getTestCaseAt(i);
 		
-		TestRunner runner = testCase.run(new PropertiesMap(), false);
-		Assert.assertEquals(String.valueOf(Status.FINISHED), String.valueOf(runner.getStatus()));
-	}
 
 }
 
